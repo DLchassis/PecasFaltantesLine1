@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peças Faltantes - Station Group 139</title>
+<style>
+*{box-sizing:border-box}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f3f5f7;color:#222}
+    .header{background:#041e42;color:#fff;padding:20px 30px}
+    .header h1{margin:0;font-size:24px}
+    .header p{margin:6px 0 0;color:#cbd5e1;font-size:14px}
+    .container{padding:25px}
+    .filtros,
+    .status-bar{background:#fff;padding:15px 20px;border-radius:8px;margin-bottom:15px;box-shadow:0 2px 6px rgba(0,0,0,.08);display:flex;align-items:center;gap:15px;flex-wrap:wrap}
+    .status-bar{justify-content:space-between}
+    .filtro{display:flex;flex-direction:column;gap:6px}
+    .filtro label{font-size:13px;font-weight:bold}
+    .filtro input{height:38px;padding:0 10px;border:1px solid #cbd5e1;border-radius:5px;font-size:14px}
+    button{border:0;color:#fff;height:38px;padding:0 18px;border-radius:5px;cursor:pointer;font-weight:bold;background:#005eb8}
+    .btn-limpar{background:#64748b}.btn-som{background:#920404}.btn-ok{background:#16a34a;min-width:75px}
+    .btn-visto{background:#F9FAFB;color:#475569;min-width:75px;cursor:default}
+    .status{font-weight:bold}
+    .carregando{color:#d97706}
+    .online{color:#15803d}
+    .erro{color:#dc2626}
+    .footer-info{margin-top:6px;color:#64748b;font-size:12px}
+    .contador{font-size:13px;color:#475569}
+    .contador-alerta{display:none;background:#fee2e2;color:#991b1b;padding:12px 18px;margin-bottom:15px;border-left:5px solid #921111;border-radius:6px;font-weight:bold}
+    .table-container{background:#fff;border-radius:8px;overflow:auto;box-shadow:0 2px 6px rgba(0,0,0,.08)}table{width:100%;border-collapse:collapse;min-width:1180px}thead{background:#041e42;color:#fff}th{padding:14px;text-align:left;font-size:13px;white-space:nowrap}td{padding:13px 14px;border-bottom:1px solid #e5e7eb;font-size:14px}
+    .part-number{font-weight:bold;color:#ff0000}
+    .pop{font-weight:bold}@keyframes piscarLinha{0%,100%{background:#fecaca;color:#111827}50%{background:#dc2626;color:#fff}}tr.alerta{animation:piscarLinha 1s infinite}tr.alerta 
+    .part-number{color:inherit}tr.reconhecido{background:#f8fafc}
+    .empty{padding:40px;text-align:center;color:#6b7280}
+</style>
+</head>
+<body>
+<div class="header"><h1>PEÇAS FALTANTES</h1><p>Station Group 139 — Line Feeding 1</p></div>
+<div class="container">
+<div class="filtros">
+<div class="filtro"><label for="filtroData">Selecionar data</label><input type="date" id="filtroData" onchange="aplicarFiltro()"></div>
+<button onclick="aplicarFiltro()">Filtrar</button>
+<button class="btn-limpar" onclick="limparFiltro()">Mostrar todos</button>
+<button id="btnSom" class="btn-som" onclick="alternarSom()">🔊 Ativar sirene</button>
+<div id="contador" class="contador"></div>
+</div>
+<div id="contadorAlerta" class="contador-alerta"></div>
+<div class="status-bar"><div><div id="status" class="status carregando">Consultando API...</div><div id="ultimaAtualizacao" class="footer-info">Aguardando atualização</div></div><button onclick="carregarDados()">Atualizar</button></div>
+<div class="table-container"><table><thead><tr><th>Data / Hora</th><th>POP ID</th><th>Caixa</th><th>Endereço</th><th>Descrição</th><th>Part Number</th><th>Estação</th><th>Ação</th></tr></thead><tbody id="tabelaDados"></tbody></table><div id="mensagem" class="empty" style="display:none">Nenhuma peça faltante encontrada.</div></div>
+</div>
+<script>
+const API_URL="https://webvp-api.br.scania.com/api/misspart?StationGroupId=139";
+const INTERVALO_ATUALIZACAO=30000;
+let todosDados=[];
+let primeiraCarga=true;
+let registrosConhecidos=new Set();
+let alertasPendentes=new Set();
+let audioContext=null;
+let somAtivado=false;
+let sireneOscillator=null;
+let sireneGain=null;
+let sireneTimer=null;
+let consultaEmAndamento=false;
+
+function idRegistro(item){return [item.popId||'',item.dateLog||'',item.partNumber||'',item.caixa||'',item.endereco||''].join('|')}
+function chaveOK(id){return 'misspart_ok_'+id}
+function reconhecido(id){return localStorage.getItem(chaveOK(id))==='true'}
+
+async function alternarSom(){
+    const btn=document.getElementById('btnSom');
+    if(somAtivado){
+        somAtivado=false;
+        pararSirene();
+        btn.textContent='🔇 Sirene desativada';
+        btn.style.background='#64748b';
+        return;
+    }
+    try{
+        const A=window.AudioContext||window.webkitAudioContext;
+        if(!A)throw new Error('Web Audio API não suportada');
+        if(!audioContext)audioContext=new A();
+        if(audioContext.state==='suspended')await audioContext.resume();
+        somAtivado=true;
+        btn.textContent='🚨 Sirene ativada';
+        btn.style.background='#16a34a';
+        verificarAlertas();
+    }catch(e){
+        console.error(e);
+        alert('Não foi possível ativar a sirene neste navegador.');
+    }
+}
+
+function iniciarSirene(){if(!somAtivado||!audioContext||sireneOscillator)return;const agora=audioContext.currentTime;sireneOscillator=audioContext.createOscillator();sireneGain=audioContext.createGain();sireneOscillator.type='sawtooth';sireneOscillator.frequency.setValueAtTime(620,agora);sireneGain.gain.setValueAtTime(0.22,agora);sireneOscillator.connect(sireneGain);sireneGain.connect(audioContext.destination);sireneOscillator.start();let alto=false;sireneTimer=setInterval(()=>{if(!sireneOscillator)return;alto=!alto;const alvo=alto?1150:620;const t=audioContext.currentTime;sireneOscillator.frequency.cancelScheduledValues(t);sireneOscillator.frequency.setValueAtTime(sireneOscillator.frequency.value,t);sireneOscillator.frequency.linearRampToValueAtTime(alvo,t+0.55)},600)}
+function pararSirene(){if(sireneTimer){clearInterval(sireneTimer);sireneTimer=null}if(sireneOscillator){try{sireneOscillator.stop()}catch(e){}try{sireneOscillator.disconnect()}catch(e){}sireneOscillator=null}if(sireneGain){try{sireneGain.disconnect()}catch(e){}sireneGain=null}}
+function verificarAlertas(){const ativos=[...document.querySelectorAll('tr.alerta')];const c=document.getElementById('contadorAlerta');if(ativos.length){c.style.display='block';c.textContent='⚠ '+ativos.length+(ativos.length===1?' peça aguardando reconhecimento':' peças aguardando reconhecimento');iniciarSirene()}else{c.style.display='none';c.textContent='';pararSirene()}}
+function confirmarLinha(id){localStorage.setItem(chaveOK(id),'true');alertasPendentes.delete(id);aplicarFiltro();verificarAlertas()}
+
+async function carregarDados(){if(consultaEmAndamento)return;consultaEmAndamento=true;const status=document.getElementById('status'),ultima=document.getElementById('ultimaAtualizacao'),msg=document.getElementById('mensagem');status.textContent='Consultando API...';status.className='status carregando';try{const sep=API_URL.includes('?')?'&':'?';const r=await fetch(API_URL+sep+'_='+Date.now(),{method:'GET',cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status+' - '+r.statusText);const resposta=await r.json();const recebidos=Array.isArray(resposta.content)?resposta.content:[];let novos=[];if(!primeiraCarga){novos=recebidos.filter(x=>!registrosConhecidos.has(idRegistro(x)))}registrosConhecidos=new Set(recebidos.map(idRegistro));if(primeiraCarga){primeiraCarga=false}else{novos.forEach(x=>{const id=idRegistro(x);if(!reconhecido(id))alertasPendentes.add(id)})}todosDados=[...recebidos].sort((a,b)=>converterData(b.dateLog)-converterData(a.dateLog));aplicarFiltro();status.textContent='API conectada';status.className='status online';ultima.textContent='Última atualização: '+new Date().toLocaleString('pt-BR');verificarAlertas()}catch(e){console.error('Erro ao consultar API:',e);status.textContent='Erro ao consultar API';status.className='status erro';msg.style.display='block';msg.textContent='Não foi possível consultar a API. Verifique a rede, o acesso à API e o Console do navegador (F12).';pararSirene()}finally{consultaEmAndamento=false}}
+
+function aplicarFiltro(){const v=document.getElementById('filtroData').value;if(!v){mostrarDados(todosDados);return}const [ano,mes,dia]=v.split('-');const alvo=dia+'/'+mes+'/'+ano;mostrarDados(todosDados.filter(x=>x.dateLog&&String(x.dateLog).split(' ')[0]===alvo))}
+function limparFiltro(){document.getElementById('filtroData').value='';mostrarDados(todosDados)}
+function mostrarDados(dados){const tabela=document.getElementById('tabelaDados'),msg=document.getElementById('mensagem'),contador=document.getElementById('contador');tabela.innerHTML='';msg.style.display='none';if(!dados.length){msg.textContent='Nenhum registro encontrado para a data selecionada.';msg.style.display='block';contador.textContent='0 registros';verificarAlertas();return}dados.forEach(item=>{const id=idRegistro(item);const tr=document.createElement('tr');const pendente=alertasPendentes.has(id)&&!reconhecido(id);if(pendente)tr.classList.add('alerta');else if(reconhecido(id))tr.classList.add('reconhecido');adicionarCelula(tr,item.dateLog);adicionarCelula(tr,item.popId,'pop');adicionarCelula(tr,item.caixa);adicionarCelula(tr,item.endereco);adicionarCelula(tr,item.partDescription);adicionarCelula(tr,item.partNumber,'part-number');adicionarCelula(tr,item.stationName);const td=document.createElement('td');const b=document.createElement('button');if(pendente){b.textContent='OK';b.className='btn-ok';b.onclick=()=>confirmarLinha(id)}else if(reconhecido(id)){b.textContent='✓ Visto';b.className='btn-visto';b.disabled=true}if(pendente||reconhecido(id)){td.appendChild(b)}else{td.textContent=''}tr.appendChild(td);tabela.appendChild(tr)});contador.textContent=dados.length+' registros exibidos'}
+function adicionarCelula(tr,v,cl=''){const td=document.createElement('td');td.textContent=v==null?'-':String(v).trim();if(cl)td.className=cl;tr.appendChild(td)}
+function converterData(s){if(!s)return new Date(0);const r=String(s).match(/^(\d{2})\/(\d{2})\/(\d{4})(?:\s+(\d{2}):(\d{2}):(\d{2}))?$/);if(!r)return new Date(0);return new Date(+r[3],+r[2]-1,+r[1],+(r[4]||0),+(r[5]||0),+(r[6]||0))}
+
+carregarDados();
+setInterval(carregarDados,INTERVALO_ATUALIZACAO);
+</script>
+</body>
+</html>
