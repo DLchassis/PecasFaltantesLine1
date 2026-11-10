@@ -1,294 +1,302 @@
-# 🚛 Peças Faltantes — Station Group 139
+# 🚛 Missing Parts — Station Group 139
 
 ### DLchassis | Industrial Automation · Chassis Logistics
 
-Aplicação digital para monitoramento de peças faltantes no processo de abastecimento logístico da linha de produção, vinculada ao **Station Group 139 — Line Feeding 1**.
+A digital application for monitoring missing parts in the production line logistics supply process, associated with **Station Group 139 — Line Feeding 1**.
 
-A ferramenta tem como objetivo proporcionar maior visibilidade operacional sobre as ocorrências de peças faltantes, permitindo o acompanhamento em tempo real dos registros, a identificação de materiais pendentes e o reconhecimento das ocorrências pela equipe responsável.
+The tool aims to provide greater operational visibility into missing parts occurrences, enabling real-time record monitoring, identification of pending materials, and acknowledgment of occurrences by the responsible team.
 
-Desenvolvida como uma solução de apoio à logística industrial, a aplicação contribui para a digitalização dos processos, melhoria da comunicação operacional e redução do tempo de resposta diante de desvios no abastecimento.
-
----
-
-## 🎯 Objetivo da Aplicação
-
-Disponibilizar uma interface digital para acompanhamento das peças faltantes identificadas no processo de Line Feeding, permitindo que a operação logística tenha acesso rápido e estruturado às informações necessárias para a tratativa das ocorrências.
-
-A ferramenta busca contribuir para:
-
-- Maior visibilidade das ocorrências de peças faltantes;
-- Identificação rápida de materiais pendentes de abastecimento;
-- Agilidade na tomada de decisão operacional;
-- Redução do tempo de identificação de desvios logísticos;
-- Melhoria da comunicação entre logística e operação;
-- Monitoramento contínuo das ocorrências;
-- Digitalização das atividades de controle logístico;
-- Apoio à continuidade do fluxo produtivo.
+Developed as a supporting solution for industrial logistics, the application contributes to process digitalization, improved operational communication, and reduced response time to material supply deviations.
 
 ---
 
-## 🏭 Contexto Logístico
+## 🎯 Application Objective
 
-A Logística de Chassis desempenha um papel fundamental na garantia do abastecimento correto e contínuo das linhas de produção.
+Provide a digital interface for monitoring missing parts identified in the Line Feeding process, allowing the logistics operation to quickly access structured information required for occurrence handling.
 
-Dentro desse contexto, o processo de **Line Feeding** é responsável pelo fornecimento dos materiais necessários à execução das atividades produtivas, respeitando os requisitos de identificação, localização e disponibilidade dos componentes.
+The tool aims to contribute to:
 
-A ocorrência de peças faltantes pode gerar desvios no fluxo logístico, necessidade de tratativas operacionais e riscos à continuidade do abastecimento.
+- Greater visibility of missing parts occurrences;
+- Faster identification of materials pending supply;
+- Improved operational decision-making;
+- Reduced time to identify logistics deviations;
+- Improved communication between logistics and production operations;
+- Continuous occurrence monitoring;
+- Digitalization of logistics control activities;
+- Support for production flow continuity.
 
-A aplicação Peças Faltantes foi desenvolvida para apoiar esse cenário, centralizando as informações das ocorrências em uma interface de fácil visualização.
+---
 
-### Conceitos relacionados
+## 🏭 Logistics Context
 
-| Conceito | Aplicação no contexto logístico |
+Chassis Logistics plays a fundamental role in ensuring the correct and continuous supply of materials to production lines.
+
+Within this context, the **Line Feeding** process is responsible for supplying the materials required for production activities, ensuring compliance with component identification, location, and availability requirements.
+
+Missing parts occurrences may generate deviations in the logistics flow, require operational handling, and create risks to supply continuity.
+
+The Missing Parts application was developed to support this scenario by centralizing occurrence information in an easy-to-visualize interface.
+
+### Related Concepts
+
+| Concept | Application in the Logistics Context |
 |---|---|
-| Line Feeding | Processo de abastecimento de materiais à linha de produção. |
-| Peças Faltantes | Ocorrências de materiais identificados como pendentes no processo logístico. |
-| Station Group | Agrupamento de estações utilizado para delimitar o monitoramento da aplicação. |
-| POP ID | Identificador do registro operacional apresentado na ferramenta. |
-| Caixa | Identificação da caixa relacionada à ocorrência. |
-| Endereço | Referência de localização logística do material. |
-| Part Number | Código de identificação do componente. |
-| Station | Identificação da estação relacionada ao registro. |
-| Digitalização | Transformação do acompanhamento operacional em uma interface digital. |
-| Automação | Utilização de recursos tecnológicos para atualização e sinalização de ocorrências. |
+| Line Feeding | Material supply process to the production line. |
+| Missing Parts | Material occurrences identified as pending in the logistics process. |
+| Station Group | Grouping of stations used to define the application's monitoring scope. |
+| POP ID | Identifier of the operational record displayed in the tool. |
+| Box | Identification of the box associated with the occurrence. |
+| Address | Logistics location reference for the material. |
+| Part Number | Component identification code. |
+| Station | Identification of the station associated with the record. |
+| Digitalization | Transformation of operational monitoring into a digital interface. |
+| Automation | Use of technological resources for occurrence updates and notifications. |
 
 ---
 
-## ⚙️ Funcionalidades
+## ⚙️ Features
 
-### 1. Monitoramento de Peças Faltantes
+### 1. Missing Parts Monitoring
 
-A aplicação realiza consultas periódicas à API responsável pelo fornecimento dos registros de peças faltantes.
+The application periodically queries the API responsible for providing missing parts records.
 
-As informações são apresentadas em uma tabela estruturada, permitindo o acompanhamento das ocorrências vinculadas ao Station Group 139.
+The information is displayed in a structured table, allowing users to monitor occurrences associated with Station Group 139.
 
-### 2. Atualização Automática
+### 2. Automatic Data Refresh
 
-Os dados são atualizados automaticamente a cada 30 segundos.
+Data is automatically refreshed every 30 seconds.
 
-Essa funcionalidade permite que a interface acompanhe continuamente as novas ocorrências disponibilizadas pela API, sem a necessidade de atualização manual constante.
+This feature allows the interface to continuously monitor new occurrences made available by the API without requiring constant manual updates.
 
-Também está disponível o botão **Atualizar**, que permite realizar uma nova consulta manualmente.
+A manual **Refresh** button is also available to perform a new query whenever necessary.
 
-### 3. Filtro por Data
+### 3. Date Filtering
 
-A ferramenta disponibiliza um filtro de data para facilitar a consulta das ocorrências.
+The tool provides a date filter to facilitate occurrence queries.
 
-Funcionalidades:
-- Seleção de uma data específica;
-- Aplicação do filtro;
-- Visualização dos registros correspondentes;
-- Opção de exibir todos os registros novamente.
+Features:
+- Selection of a specific date;
+- Filter application;
+- Display of corresponding records;
+- Option to display all records again.
 
-O recurso facilita a análise das ocorrências por período e o acompanhamento de registros específicos.
+This feature facilitates occurrence analysis by date and the monitoring of specific records.
 
-### 4. Identificação de Novas Ocorrências
+### 4. New Occurrence Identification
 
-A aplicação identifica novos registros recebidos após a primeira consulta.
+The application identifies new records received after the initial query.
 
-As ocorrências ainda não reconhecidas são destacadas visualmente por meio de uma sinalização intermitente na linha correspondente.
+Unacknowledged occurrences are visually highlighted through a blinking signal on the corresponding row.
 
-Esse mecanismo permite chamar a atenção da equipe para novos registros que necessitam de reconhecimento operacional.
+This mechanism helps draw the team's attention to new records requiring operational acknowledgment.
 
-### 5. Alerta Visual
+### 5. Visual Alerts
 
-As peças faltantes pendentes de reconhecimento recebem destaque visual.
+Missing parts pending acknowledgment receive visual highlighting.
 
-O alerta utiliza uma sinalização intermitente em vermelho, facilitando a identificação de novas ocorrências na interface.
+The alert uses a blinking red signal, making it easier to identify new occurrences in the interface.
 
-### 6. Alerta Sonoro — Sirene
+### 6. Audible Alert — Siren
 
-A aplicação possui um recurso de sirene para sinalização de ocorrências pendentes de reconhecimento.
+The application includes a siren feature to notify users of occurrences pending acknowledgment.
 
-O usuário pode ativar ou desativar o recurso por meio do botão de controle de som.
+Users can enable or disable the feature through the sound control button.
 
-Quando ativada, a sirene permanece funcionando enquanto existirem ocorrências pendentes de reconhecimento.
+When enabled, the siren remains active while there are occurrences pending acknowledgment.
 
-O alerta sonoro atua como um recurso adicional de atenção operacional.
+The audible alert acts as an additional operational attention mechanism.
 
-### 7. Reconhecimento de Ocorrências
+### 7. Occurrence Acknowledgment
 
-Cada nova ocorrência pode ser reconhecida individualmente por meio do botão `OK`.
+Each new occurrence can be individually acknowledged using the `OK` button.
 
-Após o reconhecimento:
-- A ocorrência deixa de apresentar o alerta intermitente;
-- A sinalização de pendência é removida;
-- O registro passa a ser identificado como `Visto`;
-- O reconhecimento é armazenado localmente no navegador.
+After acknowledgment:
+- The occurrence no longer displays the blinking alert;
+- The pending notification is removed;
+- The record is marked as `Seen`;
+- The acknowledgment is stored locally in the browser.
 
-O reconhecimento tem como finalidade indicar que a ocorrência foi visualizada.
+Acknowledgment is intended to indicate that the occurrence has been viewed.
 
-**Importante:** o reconhecimento não representa confirmação de abastecimento, resolução da falta ou encerramento da tratativa logística.
+**Important:** Acknowledgment does not represent confirmation of material supply, resolution of the missing part, or closure of the logistics handling process.
 
-### 8. Indicador de Ocorrências Pendentes
+### 8. Pending Occurrences Indicator
 
-A ferramenta apresenta um contador de ocorrências que aguardam reconhecimento.
+The tool displays a counter for occurrences awaiting acknowledgment.
 
-Esse indicador permite identificar rapidamente a quantidade de registros que ainda necessitam de atenção visual da equipe.
+This indicator allows users to quickly identify the number of records that still require visual attention from the team.
 
-### 9. Status de Conexão com a API
+### 9. API Connection Status
 
-A interface apresenta informações sobre o estado da consulta aos dados.
+The interface displays information regarding the status of data queries.
 
-Status disponíveis:
-- Consultando API;
-- API conectada;
-- Erro ao consultar API.
+Available statuses:
+- Querying API;
+- API connected;
+- API query error.
 
-Também é exibida a data e hora da última atualização realizada com sucesso.
+The date and time of the last successful update are also displayed.
 
 ---
 
-## 📊 Informações Disponibilizadas
+## 📊 Available Information
 
-A tabela principal apresenta as seguintes informações:
+The main table displays the following information:
 
-| Campo | Descrição |
+| Field | Description |
 |---|---|
-| Data / Hora | Data e horário do registro da ocorrência. |
-| POP ID | Identificador do registro operacional. |
-| Caixa | Identificação da caixa relacionada à peça. |
-| Endereço | Endereço logístico associado ao registro. |
-| Descrição | Descrição do componente identificado como faltante. |
-| Part Number | Código do componente. |
-| Estação | Estação relacionada à ocorrência. |
-| Ação | Recurso para reconhecimento individual da ocorrência. |
+| Date / Time | Date and time of the occurrence record. |
+| POP ID | Operational record identifier. |
+| Box | Identification of the box associated with the part. |
+| Address | Logistics address associated with the record. |
+| Description | Description of the component identified as missing. |
+| Part Number | Component identification code. |
+| Station | Station associated with the occurrence. |
+| Action | Feature for individual occurrence acknowledgment. |
 
-A organização dessas informações facilita a identificação e localização dos materiais relacionados às ocorrências.
-
----
-
-## 🔄 Fluxo de Funcionamento
-
-O funcionamento da aplicação segue o seguinte fluxo:
-
-1. A aplicação é iniciada no navegador.
-2. É realizada uma consulta inicial à API.
-3. Os registros de peças faltantes são carregados na interface.
-4. As informações são organizadas por data e horário.
-5. A aplicação passa a consultar a API automaticamente a cada 30 segundos.
-6. Novas ocorrências recebidas são identificadas.
-7. Os registros pendentes recebem sinalização visual.
-8. A sirene pode ser ativada para reforçar o alerta operacional.
-9. O usuário reconhece individualmente as ocorrências por meio do botão `OK`.
-10. A ferramenta continua realizando o monitoramento periódico.
-
-**Fluxo resumido:**
-
-API → Consulta de Dados → Identificação de Ocorrências → Alerta Visual/Sonoro → Reconhecimento Operacional → Monitoramento Contínuo
+The organization of this information facilitates the identification and location of materials associated with occurrences.
 
 ---
 
-## 🔗 Integração de Dados
+## 🔄 Application Workflow
 
-A aplicação utiliza uma API corporativa para obtenção das informações relacionadas às peças faltantes.
+The application follows the workflow below:
 
-A integração permite que a interface apresente os registros disponibilizados pelo sistema de origem.
+1. The application is launched in the browser.
+2. An initial query is performed against the API.
+3. Missing parts records are loaded into the interface.
+4. Information is organized by date and time.
+5. The application automatically queries the API every 30 seconds.
+6. Newly received occurrences are identified.
+7. Pending records receive visual notifications.
+8. The siren can be enabled to reinforce the operational alert.
+9. Users individually acknowledge occurrences using the `OK` button.
+10. The tool continues performing periodic monitoring.
 
-### Características da integração
+**Workflow Summary:**
 
-- Método de consulta: GET;
-- Atualização automática: 30 segundos;
-- Formato de resposta esperado: JSON;
-- Consulta direcionada ao Station Group 139;
-- Atualização manual disponível;
-- Tratamento de erros de conexão.
-
-A aplicação utiliza os dados disponibilizados pela API, sem realizar alterações diretamente no sistema de origem.
+API → Data Query → Occurrence Identification → Visual/Audible Alert → Operational Acknowledgment → Continuous Monitoring
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## 🔗 Data Integration
 
-| Tecnologia | Aplicação |
+The application uses a corporate API to retrieve missing parts information.
+
+The integration allows the interface to display records provided by the source system.
+
+### Integration Characteristics
+
+- Request method: GET;
+- Automatic refresh interval: 30 seconds;
+- Expected response format: JSON;
+- Query directed to Station Group 139;
+- Manual refresh available;
+- Connection error handling.
+
+The application uses the data provided by the API without directly modifying the source system.
+
+---
+
+## 🛠️ Technologies Used
+
+| Technology | Application |
 |---|---|
-| HTML5 | Estrutura da interface e organização dos elementos. |
-| CSS3 | Estilização visual, layout, cores e alertas intermitentes. |
-| JavaScript | Lógica de funcionamento, atualização de dados, filtros e reconhecimento. |
-| Fetch API | Comunicação com a API corporativa. |
-| Web Audio API | Geração do alerta sonoro da sirene. |
-| LocalStorage | Armazenamento local do reconhecimento das ocorrências. |
-| JSON | Formato de recebimento dos dados da API. |
+| HTML5 | Interface structure and element organization. |
+| CSS3 | Visual styling, layout, colors, and blinking alerts. |
+| JavaScript | Application logic, data updates, filters, and acknowledgment. |
+| Fetch API | Communication with the corporate API. |
+| Web Audio API | Generation of the siren audible alert. |
+| LocalStorage | Local storage of occurrence acknowledgments. |
+| JSON | Data exchange format received from the API. |
 
 ---
 
-## 💡 Contribuição para a Logística
+## 💡 Contribution to Logistics
 
-A aplicação está alinhada aos princípios de melhoria contínua, digitalização e automação dos processos logísticos.
+The application is aligned with the principles of continuous improvement, digitalization, and logistics process automation.
 
-### Benefícios esperados
+### Expected Benefits
 
-**Visibilidade Operacional**
-Centralização das ocorrências em uma interface única, facilitando o acompanhamento das peças faltantes.
+**Operational Visibility**
 
-**Agilidade na Identificação**
-Sinalização visual e sonora para destacar novas ocorrências que necessitam de atenção.
+Centralization of occurrences in a single interface, facilitating missing parts monitoring.
 
-**Redução do Tempo de Resposta**
-Facilidade na identificação dos registros e das informações relacionadas aos materiais.
+**Faster Identification**
 
-**Digitalização de Processos**
-Substituição de formas manuais de acompanhamento por uma interface digital estruturada.
+Visual and audible notifications to highlight new occurrences requiring attention.
 
-**Padronização**
-Disponibilização de informações em um formato uniforme para acompanhamento operacional.
+**Reduced Response Time**
 
-**Melhoria Contínua**
-Possibilidade de evolução da ferramenta conforme as necessidades da operação logística.
+Easier identification of records and information related to materials.
 
-**Apoio à Continuidade Produtiva**
-Melhoria da visibilidade dos desvios de abastecimento que podem impactar o fluxo de materiais para a linha.
+**Process Digitalization**
 
----
+Replacement of manual monitoring methods with a structured digital interface.
 
-## 🚀 Evolução da Ferramenta
+**Standardization**
 
-A aplicação faz parte da iniciativa de desenvolvimento de soluções digitais para a Logística de Chassis.
+Availability of information in a uniform format for operational monitoring.
 
-Seu desenvolvimento está alinhado a iniciativas de:
+**Continuous Improvement**
 
-- Automação de processos logísticos;
-- Digitalização do acompanhamento operacional;
-- Integração de sistemas;
-- Monitoramento de fluxo de materiais;
-- Melhoria da eficiência do abastecimento;
-- Desenvolvimento de aplicações internas;
-- Transformação digital da logística industrial.
+Opportunity for application evolution according to logistics operation requirements.
 
-A ferramenta poderá evoluir conforme as necessidades operacionais e oportunidades identificadas pela área.
+**Production Continuity Support**
+
+Improved visibility of supply deviations that may impact the material flow to the production line.
 
 ---
 
-## 📌 Observações Técnicas
+## 🚀 Application Evolution
 
-- A aplicação depende de conectividade com a API corporativa.
-- O acesso à API pode depender da rede e das permissões corporativas.
-- A atualização automática ocorre em intervalos de 30 segundos.
-- O reconhecimento das ocorrências é armazenado localmente no navegador.
-- O reconhecimento não é compartilhado automaticamente entre diferentes usuários ou dispositivos.
-- A primeira consulta estabelece a referência inicial dos registros; os alertas de novas ocorrências são gerados nas consultas seguintes.
-- A sirene depende da ativação pelo usuário e do suporte do navegador à Web Audio API.
-- A ferramenta é destinada ao monitoramento e reconhecimento visual de ocorrências, não à confirmação da resolução da falta.
+The application is part of the initiative to develop digital solutions for Chassis Logistics.
+
+Its development is aligned with initiatives involving:
+
+- Logistics process automation;
+- Digitalization of operational monitoring;
+- System integration;
+- Material flow monitoring;
+- Improved supply efficiency;
+- Internal application development;
+- Industrial logistics digital transformation.
+
+The tool may evolve according to operational requirements and opportunities identified by the department.
 
 ---
 
-## 📁 Estrutura do Projeto
+## 📌 Technical Notes
+
+- The application depends on connectivity to the corporate API.
+- API access may depend on network connectivity and corporate permissions.
+- Automatic updates occur at 30-second intervals.
+- Occurrence acknowledgment is stored locally in the browser.
+- Acknowledgment is not automatically shared between different users or devices.
+- The initial query establishes the reference set of records; alerts for new occurrences are generated during subsequent queries.
+- The siren requires user activation and browser support for the Web Audio API.
+- The tool is intended for occurrence monitoring and visual acknowledgment, not for confirmation that the missing part has been resolved.
+
+---
+
+## 📁 Project Structure
 
 DLchassis/
 │
 ├── index.html
-│   └── Interface, estilos e funcionalidades
-│       da aplicação Peças Faltantes
+│   └── Interface, styles, and features
+│       of the Missing Parts application
 │
 └── README.md
-    └── Documentação do projeto
+    └── Project documentation
+```
 
-A aplicação está atualmente estruturada em um único arquivo HTML, contendo os recursos de interface, estilização e lógica JavaScript.
+The application is currently structured in a single HTML file containing the interface, styling, and JavaScript logic.
 
 ---
 
 ## 🏭 DLchassis
 
-Este projeto integra o conjunto de soluções desenvolvidas para apoiar a Logística de Chassis por meio da tecnologia, automação e digitalização de processos.
+This project is part of a set of digital solutions developed to support Chassis Logistics through technology, automation, and process digitalization.
 
 **Industrial Automation · Logistics · Digitalization · Continuous Improvement**
