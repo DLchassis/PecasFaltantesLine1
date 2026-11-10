@@ -279,18 +279,17 @@ The tool may evolve according to operational requirements and opportunities iden
 
 ---
 
-## 📁 Project Structure
+## 📁 Estrutura do Projeto
 
 DLchassis/
 │
 ├── index.html
-│   └── Interface, styles, and features
-│       of the Missing Parts application
+│   └── Interface, style and features
+│       of the Peças Faltantes
 │
 └── README.md
-    └── Project documentation
+    └── Project Documentation
 ```
-
 The application is currently structured in a single HTML file containing the interface, styling, and JavaScript logic.
 
 ---
